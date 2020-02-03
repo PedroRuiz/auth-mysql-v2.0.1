@@ -1,0 +1,44 @@
+{
+  "name": "auth-mysql.v2.0.1",
+  "version": "2.0.1",
+  "description": "jwt-uuid-apikey token authorization system using mariadb",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PedroRuiz/auth-mysql-v2.0.1.git"
+  },
+  "keywords": [
+    "jwt",
+    "uuid",
+    "apikey",
+    "token",
+    "auth",
+    "authorization",
+    "mariadb",
+    "login",
+    "logup",
+    "signup",
+    "signin"
+  ],
+  "author": "Pedro Ruiz-Hidalgo @pedroruizhidalg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PedroRuiz/auth-mysql-v2.0.1/issues"
+  },
+  "homepage": "https://github.com/PedroRuiz/auth-mysql-v2.0.1#readme",
+  "dependencies": {
+    "@pedroruiz/validator": "^1.0.1",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mariadb": "^2.1.5",
+    "uuid-apikey": "^1.4.6"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2"
+  }
+}
