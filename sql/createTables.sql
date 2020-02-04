@@ -14,3 +14,16 @@ CREATE TABLE `owners` (
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `applicationsv2.0.1` (
+  `idapplications` int(11) NOT NULL AUTO_INCREMENT,
+  `idowners` int(11) NOT NULL,
+  `appname` varchar(255) DEFAULT NULL,
+  `creationdate` date DEFAULT NULL,
+  `enddate` date DEFAULT NULL,
+  `uuid` char(36) DEFAULT NULL,
+  `apikey` char(31) DEFAULT NULL,
+  PRIMARY KEY (`idapplications`),
+  KEY `fk_applicationsv2.0.1_1_idx` (`idowners`),
+  CONSTRAINT `fk_applicationsv2.0.1_1` FOREIGN KEY (`idowners`) REFERENCES `owners` (`idowners`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
