@@ -10,10 +10,6 @@ const middleWareCheckApiKey = require('./middlewares/checkApiKeys')
 const middleWareCheckUUID = require('./middlewares/checkUUID')
 const CheckOwnersCreate = require('./middlewares/checkOwnersCreate')
 
-router.get('/', (req,res) => {
-  res.send(__filename)
-})
-
 router.post('/create', async (req,res) => {
   try {
     const { owneruuid, appname } = req.body
