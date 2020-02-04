@@ -263,8 +263,95 @@ pre[data-line] .line-highlight[data-end]:after {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview  ">
-      <h1 class="mume-header" id="auth-mysql-v201">auth-mysql-v2.0.1</h1>
+      <p><img src="https://pedroruizhidalgo.es/assets/img/logo.svg" alt="logo"></p>
+<h1 class="mume-header" id="auth-mysql-v200">Auth-mysql v2.0.0</h1>
 
+<p>By Pedro Ruiz Hidalgo</p>
+<hr>
+<h2 class="mume-header" id="abstract">Abstract</h2>
+
+<p>The organization is based on the owner concepts to which the applications that have subscribed users belong. In other words, you must start creating an owner, then create an application and then its users.<br>
+Each user is identified by email as a unique key in the owners table. Then, each application is created by a single owner.<br>
+Everything <strong>Auth-mysql v 2.0.2</strong> is built under the concept of <em>cascade</em>, which means that if you delete an owner, all applications and users will also be deleted. Consequently, in case of elimination of the application, all its users will disappear. Only the removal of a single user has no other effect than this removal process.<br>
+All passwords have secure cryptographic storage. Both owners and applications will be identified by uuid provided by the application.</p>
+<h1 class="mume-header" id="routes">Routes</h1>
+
+<p>All routes must be accessed following the specification of this table</p>
+<table>
+<thead>
+<tr>
+<th>header</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+</tr>
+</tbody>
+</table>
+<h3 class="mume-header" id="owners">Owners</h3>
+
+<p>Path <strong>~/appowner/create</strong> POST method.<br>
+Request data sample</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;firstname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Jason&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;lastname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bourne&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;jbourne@gmail.com&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;password&quot;</span><span class="token operator">:</span> <span class="token string">&quot;theverymuchsecretpasswordofjasonbourne&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>It produces a response like</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;firstname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Jason&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;lastname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bourne&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;jbourne@gmail.com&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;deletion_token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Impib3VybmVAZ21haWwuY29tIiwiaWF0IjoxNTgwODQ0MTc0fQ.6s09oEfJrNutXoqgkbVRk_IwJXP2BMkiHGjF7qzppVY&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;858afac0-28cd-4ea7-99ca-f262941a8a7e&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>(Obviously deletion_token and uuid are samples.)</p>
+<p>Path <strong>~/appowner/uuid/:uuid</strong> GET method.</p>
+<pre data-role="codeBlock" data-info="html" class="language-html">~/appowner/uuid/858afac0-28cd-4ea7-99ca-f262941a8a7e
+</pre><p>Responses as</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;firstname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Jason&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;lastname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bourne&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;jbourne@gmail.com&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;deletion_token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Impib3VybmVAZ21haWwuY29tIiwiaWF0IjoxNTgwODQ0MTc0fQ.6s09oEfJrNutXoqgkbVRk_IwJXP2BMkiHGjF7qzppVY&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;858afac0-28cd-4ea7-99ca-f262941a8a7e&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>Path <strong>~/appowner/emailpassword/:email/:password</strong> GET method.</p>
+<pre data-role="codeBlock" data-info="html" class="language-html">~/appowner/emailpassword/jbourne@gmail.com/theverymuchsecretpasswordofjasonbourne
+</pre><p>Has the same result of Path <strong>~/appowner/uuid/:uuid</strong> GET method.</p>
+<p>Path <strong>~/delete</strong> DELETE method.<br>
+Send this to delete your stored <code>owner</code></p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;deletion_token&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Impib3VybmVAZ21haWwuY29tIiwiaWF0IjoxNTgwODQ0MTc0fQ.6s09oEfJrNutXoqgkbVRk_IwJXP2BMkiHGjF7qzppVY&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;uuid&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;858afac0-28cd-4ea7-99ca-f262941a8a7e&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>Produces</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;affectedRows&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;insertId&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;warningStatus&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</pre><p>Path <strong>~/update</strong> POST method.<br>
+Send</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;de54e724-d488-4f87-80a8-9ae754986e51&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;firstname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Jason&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;lastname&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bourne&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;myotheremail@gmail.com&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;password&quot;</span><span class="token operator">:</span> <span class="token string">&quot;otherpassword&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>To get the response</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token number">202</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;affectedRows&quot;</span><span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span>
+</pre><p><em>(The http status <code>202</code> means <code>Accepted</code>)</em></p>
+<hr>
+<p><span style="font-size:0.85em;">Copyleft <img src="https://techcontracts.com/sitefiles/wp-content/uploads/2018/01/Copyleft_image-300x300.jpg" width="10"> 2020 Pedro Ruiz-Hidalgo, Twitter: <strong>@pedroruizhidalg</strong></span></p>
 
       </div>
       
