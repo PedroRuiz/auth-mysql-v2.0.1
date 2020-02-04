@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/PedroRuiz/auth-mysql-v2.0.1#readme",
   "dependencies": {
-    "@pedroruiz/validator": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
