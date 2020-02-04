@@ -138,11 +138,13 @@ router.delete('/delete', async (req,res) => {
 
 router.post('/update', CheckOwnersCreate, async (req, res) => {
   const {firstname,lastname,email,password,uuid } = req.body
-
+  const salt = await bcrypt.genSalt(10)
+  const cryptedPassword = bcrypt.hashSync(password,salt)
+  
   const conn = await pool.getConnection()
   const result =await conn.query(
     `UPDATE ${process.env.APPOWNERS} SET firstname = ?, lastname = ?, email = ?, password = ? WHERE uuid = ?`,
-    [firstname,lastname,email,password,uuid]
+    [firstname,lastname,email,cryptedPassword,uuid]
   )
   if(result.affectedRows === 1)
   {
