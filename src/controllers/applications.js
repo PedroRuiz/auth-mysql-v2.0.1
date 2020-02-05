@@ -1,14 +1,10 @@
 const { Router } = require('express')
 const router = Router()
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+
 
 const pool = require('../database')
 const apikey = require('../uuid-apikey')
-const middleWareVerifyToken = require('./middlewares/verifyToken')
-const middleWareCheckApiKey = require('./middlewares/checkApiKeys')
-const middleWareCheckUUID = require('./middlewares/checkUUID')
-const CheckOwnersCreate = require('./middlewares/checkOwnersCreate')
 
 router.post('/create', async (req,res) => {
   try {

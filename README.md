@@ -1,11 +1,11 @@
-![logo](https://pedroruizhidalgo.es/assets/img/logo.svg)
-# Auth-mysql v2.0.0
+![Pedro Ruiz-Hidalgo's logo](https://pedroruizhidalgo.es/assets/img/logo.svg)
+# Auth-mysql v2.0.1
 By Pedro Ruiz Hidalgo
 
 ---
 
 ## Abstract
-The organization is based on the owner concepts to which the applications that have subscribed users belong. In other words, you must start creating an owner, then create an application and then its users.
+Manage your own authorization system with this API. The organization is based on the owner concepts to which the applications that have subscribed users belong. In other words, you must start creating an owner, then create an application and then its users.
 Each user is identified by email as a unique key in the owners table. Then, each application is created by a single owner.
 Everything **Auth-mysql v 2.0.2** is built under the concept of *cascade*, which means that if you delete an owner, all applications and users will also be deleted. Consequently, in case of elimination of the application, all its users will disappear. Only the removal of a single user has no other effect than this removal process.
 All passwords have secure cryptographic storage. Both owners and applications will be identified by uuid provided by the application.
@@ -62,7 +62,7 @@ Path **~/appowner/emailpassword/:email/:password** GET method.
 ~~~
 Has the same result of Path **~/appowner/uuid/:uuid** GET method.
 
-Path **~/delete** DELETE method.
+Path **~/appowner/delete** DELETE method.
 Send this to delete your stored `owner`
 ~~~json
 {
@@ -79,7 +79,7 @@ Produces
 }
 ~~~
 
-Path **~/update** POST method.
+Path **~/appowner/update** POST method.
 Send
 ~~~json
 {
@@ -102,8 +102,51 @@ To get the response
 ### Applications
 
 
-(here goes applications)
+Path **~/applications/create** POST method.
+An owner cannot have more than one application with the same name.
 
+Send this data to create an application
+~~~json
+{ 
+    "owneruuid" : "de54e724-d488-4f87-80a8-9ae754986e51",
+    "appname": "my new and awsome app" 
+}
+~~~
+To get the response
+~~~json
+{
+    "created": true,
+    "appname": "my new and awsome app",
+    "creationdate": "2020-02-05",
+    "enddate": "2021-02-05T11:38:56.218Z",
+    "uuid": "17ac43a8-f3b9-40be-a3b4-9eaca99b529a",
+    "apiKey": "2YP47A5-YEWM1FG-MET9XB1-N6DN56N"
+}
+~~~
+Keep your apiKey in a very safe place, **you will need it a lot**.
+
+Path **~/applications/delete** DELETE method.
+Send apiKey as follow to delete
+~~~json
+{
+	"apikey" : "2YP47A5-YEWM1FG-MET9XB1-N6DN56N"
+}
+~~~
+It produces: 
+~~~
+{
+    "affectedRows": 1,
+    "message": "All auth users of this application are deleted too"
+}
+~~~
+When the app was deleted in fact, or
+~~~
+{
+    "affectedRows": 0,
+    "message": "nothing to delete"
+}
+~~~
+In other case
 
 ### Users
 
