@@ -151,7 +151,122 @@ In other case
 ### Users
 
 
-(here goes users)
+Path **~/users/signup** POST method.
+To create a user for an due application:
+~~~json
+{
+	"apikey": "DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC",
+	"username": "JBond",
+	"email": "j.bond@gmail.com",
+	"password": "bond007"
+}
+~~~
+And this produces:
+~~~json
+{
+    "apikey": "DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC",
+    "uuid": "6cb56f4e-c22e-4b6b-9072-a267044890fc",
+    "username": "JBond",
+    "email": "j.bond@gmail.com",
+    "creationdate": "2020-02-06",
+    "enddate": "2021-02-06",
+    "active": true
+}
+~~~
+
+As you can guess, uuid is variable and its value depends on different factors.
+
+Path **~/users/signin** POST method.
+The main proccess to sign in the application es this. Though, this is not the only. Send:
+~~~json
+{
+	"uuid": "6cb56f4e-c22e-4b6b-9072-a267044890fc",
+	"apikey": "DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC"
+}
+~~~
+To get:
+~~~json
+{
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxNzkxMSwiZXhwIjoxNTgxMTA0MzExfQ.dUpgzlw9NN7RI5SqUKMPlcF4EE6dfH_l9QduLoY5D8Y"
+}
+~~~
+By default the token will expires in one day. 
+
+
+Path **~/users/signwithemail** POST method.
+Other way to sing in is this method, when the user can be identified using its email, and password, and, obviously, the apikey. Send something like:
+~~~json
+{
+	"apikey": "DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC",
+	"email": "j.bond@gmail.com",
+	"password" : "bond007"
+}
+~~~
+To get the response:
+~~~json
+{
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI",
+    "uuid": "6cb56f4e-c22e-4b6b-9072-a267044890fc"
+}
+~~~
+
+**As you can see, the program send, besides, the uuid, for a better way to do login!**
+
+Path **~/users/islogged/:token** ``GET`` method.
+Compose the url like above. for example:
+
+``http://your_domain.com/users/islogged/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI``
+
+To get
+~~~json
+{
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI"
+}
+~~~
+
+Path **~/users/userdata** ``POST`` method.
+To get private userdata send the token as:
+~~~json
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI"
+}
+~~~
+To get some like:
+~~~json
+{
+    "apikey": "DJTPYKH-R8Q4PTX-J1SA4SV-0H491Z4",
+    "uuid": "6cb56f4e-c22e-4b6b-9072-a267044890fc",
+    "username": "JBond",
+    "email": "j.bond@gmail.com",
+    "creationdate": "2020-02-05",
+    "enddate": "2021-02-05",
+    "active": true
+}
+~~~
+
+Path **~/users/update** ``PUT`` method.
+This is the way to update userdata, send
+~~~json
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI",
+	"username": "JAMESBOND",
+	"email": "bond007james@gmail.com",
+	"active": true,
+	"password" : "attheserviceofhisgracefulmajesty"
+}
+~~~
+
+To get
+~~~json
+{
+    "done": true,
+    "username": "JAMESBOND",
+    "email": "bond007james@gmail.com"
+}
+~~~
 
 ---
 <span style="font-size:0.85em;">Copyleft <img src="https://techcontracts.com/sitefiles/wp-content/uploads/2018/01/Copyleft_image-300x300.jpg" width=10> 2020 Pedro Ruiz-Hidalgo, Twitter: **@pedroruizhidalg**</span>

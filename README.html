@@ -263,7 +263,7 @@ pre[data-line] .line-highlight[data-end]:after {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview  ">
-      <p><img src="https://pedroruizhidalgo.es/assets/img/logo.svg" alt="logo"></p>
+      <p><img src="https://pedroruizhidalgo.es/assets/img/logo.svg" alt="Pedro Ruiz-Hidalgo&apos;s logo"></p>
 <h1 class="mume-header" id="auth-mysql-v201">Auth-mysql v2.0.1</h1>
 
 <p>By Pedro Ruiz Hidalgo</p>
@@ -387,8 +387,90 @@ Send apiKey as follow to delete</p>
 </code></pre><p>In other case</p>
 <h3 class="mume-header" id="users">Users</h3>
 
-<p>(here goes users)</p>
-<hr>
+<p>Path <strong>~/users/signup</strong> POST method.<br>
+To create a user for an due application:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;apikey&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;JBond&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;j.bond@gmail.com&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;password&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bond007&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>And this produces:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;apikey&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6cb56f4e-c22e-4b6b-9072-a267044890fc&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;JBond&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;j.bond@gmail.com&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;creationdate&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-02-06&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;enddate&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2021-02-06&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;active&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+</pre><p>As you can guess, uuid is variable and its value depends on different factors.</p>
+<p>Path <strong>~/users/signin</strong> POST method.<br>
+The main proccess to sign in the application es this. Though, this is not the only. Send:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6cb56f4e-c22e-4b6b-9072-a267044890fc&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;apikey&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>To get:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;auth&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxNzkxMSwiZXhwIjoxNTgxMTA0MzExfQ.dUpgzlw9NN7RI5SqUKMPlcF4EE6dfH_l9QduLoY5D8Y&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>By default the token will expires in one day.</p>
+<p>Path <strong>~/users/signwithemail</strong> POST method.<br>
+Other way to sing in is this method, when the user can be identified using its email, and password, and, obviously, the apikey. Send something like:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;apikey&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DQKPV83-BBB4Y1P-NNTTXB1-D8V8NHC&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;j.bond@gmail.com&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;password&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;bond007&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>To get the response:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;auth&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6cb56f4e-c22e-4b6b-9072-a267044890fc&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p><strong>As you can see, the program send, besides, the uuid, for a better way to do login!</strong></p>
+<p>Path <strong>~/users/islogged/:token</strong> <code>GET</code> method.<br>
+Compose the url like above. for example:</p>
+<p><code>http://your_domain.com/users/islogged/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI</code></p>
+<p>To get</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;auth&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>Path <strong>~/users/userdata</strong> <code>POST</code> method.<br>
+To get private userdata send the token as:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>To get some like:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;apikey&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DJTPYKH-R8Q4PTX-J1SA4SV-0H491Z4&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;uuid&quot;</span><span class="token operator">:</span> <span class="token string">&quot;6cb56f4e-c22e-4b6b-9072-a267044890fc&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;JBond&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;j.bond@gmail.com&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;creationdate&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2020-02-05&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;enddate&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2021-02-05&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;active&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+</pre><p>Path <strong>~/users/update</strong> <code>PUT</code> method.<br>
+This is the way to update userdata, send</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;token&quot;</span><span class="token operator">:</span> <span class="token string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjYjU2ZjRlLWMyMmUtNGI2Yi05MDcyLWEyNjcwNDQ4OTBmYyIsImlhdCI6MTU4MTAxODg1NywiZXhwIjoxNTgxMTA1MjU3fQ.mL1h4TwKSQilIcvDpK_jXs9k-4S-OczWU7rUJhx5byI&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;JAMESBOND&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bond007james@gmail.com&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;active&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;password&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;attheserviceofhisgracefulmajesty&quot;</span>
+<span class="token punctuation">}</span>
+</pre><p>To get</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">&quot;done&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;JAMESBOND&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bond007james@gmail.com&quot;</span>
+<span class="token punctuation">}</span>
+</pre><hr>
 <p><span style="font-size:0.85em;">Copyleft <img src="https://techcontracts.com/sitefiles/wp-content/uploads/2018/01/Copyleft_image-300x300.jpg" width="10"> 2020 Pedro Ruiz-Hidalgo, Twitter: <strong>@pedroruizhidalg</strong></span></p>
 
       </div>
