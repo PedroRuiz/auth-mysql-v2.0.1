@@ -13,43 +13,36 @@ const verifyToken = require('./middlewares/verifyToken')
 router.post('/signup', CheckUsersCreate, async (req,res) => {
   
   const {apikey,username,email,password } = req.body
-  const salt = await bcrypt.genSalt(10)
-  const cryptedPassword = bcrypt.hashSync(password,salt)
-  const { uuid,ApiKey } = CApiKey.getNewPair()
-  const creationdate = new Date().toISOString().split('T')[0]
-  const enddate = new Date( new Date().setFullYear(new Date().getFullYear() +1)).toISOString().split('T')[0]
-  
-  try
-  {  
+
+  try {
+
+    const salt              = await bcrypt.genSalt(10)
+    const cryptedPassword   = bcrypt.hashSync(password,salt)
+    const newPair           = await CApiKey.getNewPair()
+    const creationdate      = new Date().toISOString().split('T')[0]
+    const enddate           = new Date( new Date().setFullYear(new Date().getFullYear() +1)).toISOString().split('T')[0]
 
     const conn = await pool.getConnection()
-
-    const newUser = await conn.query(
+    await conn.query(
       `INSERT INTO ${process.env.USERS}(applicationkey,username,email,password,uuid,apikey,startdate,enddate,active) VALUES ((SELECT idapplications from ${process.env.APPLICATIONS} WHERE apikey = ?),?,?,?,?,?,?,?,?)`,
-      [apikey,username,email,cryptedPassword,uuid,apikey,creationdate,enddate,true]
-    )
+      [apikey,username,email,cryptedPassword,newPair.uuid,newPair.apiKey,creationdate,enddate,true]
+    )    
     conn.release()
-    if (newUser.affectedRows === 1)
-    {
-      
-      res.status(202).json({
-        apikey,
-        uuid,
-        username,
-        email,        
-        creationdate,
-        enddate,
-        active: true
-      })
-    } else {
-      res.status(500).json({
-        newUser
-      })
-    }
 
-  } catch( e ) {
-    res.status(500).json( e )
+    res.status(202).json({
+      apikey,
+      uuid: newPair.uuid,
+      username,
+      email,        
+      creationdate,
+      enddate,
+      active:  true
+    })
+    
+  } catch (e) {
+    res.status(500).json(e)
   }
+  
   
 })
 
@@ -98,13 +91,13 @@ router.post('/signin', async (req,res) => {
 })
 
 router.post('/signwithemail', async (req,res) => {
-  const {email,password} = req.body
+  const { email, password, apikey } = req.body
   try {
     const conn = await pool.getConnection()
     const data = await conn.query(
       //`select *.u, a.apikey from ${process.env.USERS} u, ${process.env.APPLICATIONS} a WHERE u.uudi =.`
-      `select  u.*, a.apikey as applicationkey from ${process.env.USERS} u, ${process.env.APPLICATIONS} a where u.email = ? and u.applicationkey = a.idapplications and u.active = 1 and now() between u.startdate and u.enddate and now() between a.creationdate and a.enddate `,
-      [email]
+      `select  u.*, a.apikey as applicationkey from ${process.env.USERS} u, ${process.env.APPLICATIONS} a where u.email = ? and u.applicationkey = (select idapplications from ${process.env.APPLICATIONS} where apikey=?) and u.active = 1 and now() between u.startdate and u.enddate and now() between a.creationdate and a.enddate `,
+      [email, apikey]
     )
     conn.release()
     const user = data[0]
