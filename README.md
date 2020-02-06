@@ -18,7 +18,7 @@ All routes must be accessed following the specification of this table
 | Content-Type | application/json |
 
 ### Owners
-Path **~/appowner/create** POST method.
+Path **~/appowner/create** ``POST`` method.
 Request data sample
 ~~~json
 {
@@ -40,7 +40,7 @@ It produces a response like
 ~~~
 (Obviously deletion_token and uuid are samples.)
 
-Path **~/appowner/uuid/:uuid** GET method.
+Path **~/appowner/uuid/:uuid** ``GET`` method.
 ~~~html
 ~/appowner/uuid/858afac0-28cd-4ea7-99ca-f262941a8a7e
 ~~~
@@ -56,11 +56,11 @@ Responses as
 }
 ~~~
 
-Path **~/appowner/emailpassword/:email/:password** GET method.
+Path **~/appowner/emailpassword/:email/:password** ``GET`` method.
 ~~~html
 ~/appowner/emailpassword/jbourne@gmail.com/theverymuchsecretpasswordofjasonbourne
 ~~~
-Has the same result of Path **~/appowner/uuid/:uuid** GET method.
+Has the same result of Path **~/appowner/uuid/:uuid** ``GET`` method.
 
 Path **~/appowner/delete** DELETE method.
 Send this to delete your stored `owner`
@@ -79,7 +79,7 @@ Produces
 }
 ~~~
 
-Path **~/appowner/update** POST method.
+Path **~/appowner/update** ``POST`` method.
 Send
 ~~~json
 {
@@ -102,7 +102,7 @@ To get the response
 ### Applications
 
 
-Path **~/applications/create** POST method.
+Path **~/applications/create** ``POST`` method.
 An owner cannot have more than one application with the same name.
 
 Send this data to create an application
@@ -125,7 +125,7 @@ To get the response
 ~~~
 Keep your apiKey in a very safe place, **you will need it a lot**.
 
-Path **~/applications/delete** DELETE method.
+Path **~/applications/delete** ``DELETE`` method.
 Send apiKey as follow to delete
 ~~~json
 {
@@ -151,7 +151,7 @@ In other case
 ### Users
 
 
-Path **~/users/signup** POST method.
+Path **~/users/signup** ``POST`` method.
 To create a user for an due application:
 ~~~json
 {
@@ -176,7 +176,7 @@ And this produces:
 
 As you can guess, uuid is variable and its value depends on different factors.
 
-Path **~/users/signin** POST method.
+Path **~/users/signin** ``POST`` method.
 The main proccess to sign in the application es this. Though, this is not the only. Send:
 ~~~json
 {
@@ -194,7 +194,7 @@ To get:
 By default the token will expires in one day. 
 
 
-Path **~/users/signwithemail** POST method.
+Path **~/users/signwithemail** ``POST`` method.
 Other way to sing in is this method, when the user can be identified using its email, and password, and, obviously, the apikey. Send something like:
 ~~~json
 {
@@ -267,6 +267,9 @@ To get
     "email": "bond007james@gmail.com"
 }
 ~~~
+
+Path **~/** ``GET`` method.
+Shows this page
 
 ---
 <span style="font-size:0.85em;">Copyleft <img src="https://techcontracts.com/sitefiles/wp-content/uploads/2018/01/Copyleft_image-300x300.jpg" width=10> 2020 Pedro Ruiz-Hidalgo, Twitter: **@pedroruizhidalg**</span>
