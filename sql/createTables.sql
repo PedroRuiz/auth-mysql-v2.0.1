@@ -31,3 +31,21 @@ CREATE TABLE `applicationsv2.0.1` (
   CONSTRAINT `fk_applicationsv2.0.1_1` FOREIGN KEY (`idowners`) REFERENCES `owners` (`idowners`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
 
+CREATE TABLE `apiusersv2.0.1` (
+  `idapiusers` int(11) NOT NULL AUTO_INCREMENT,
+  `applicationkey` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `apikey` char(31) NOT NULL,
+  `startdate` date NOT NULL,
+  `enddate` date NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`idapiusers`),
+  UNIQUE KEY `uuid_UNIQUE` (`uuid`),
+  UNIQUE KEY `apikey_UNIQUE` (`apikey`),
+  UNIQUE KEY `appkey_email` (`applicationkey`,`email`),
+  KEY `fk_apiusersv2.0.1_1_idx` (`applicationkey`),
+  CONSTRAINT `fk_apiusersv2.0.1_1` FOREIGN KEY (`applicationkey`) REFERENCES `applicationsv2.0.1` (`idapplications`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
