@@ -31,7 +31,7 @@
   "homepage": "https://github.com/PedroRuiz/auth-mysql-v2.0.1#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.1.5",
     "uuid-apikey": "^1.4.6"
